@@ -6,8 +6,7 @@ module.exports = new SlashCommand({
 	name: 'notices',
 	description: 'Lists current Emergency Notices for Fortnite',
 	scope: 'Exclusive',
-	async execute(interaction) {
-		const { client } = interaction;
+	async execute(interaction, client) {
 		const json = await epicFetch('https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game?lang=en');
 		const notices = json.emergencynoticev2.emergencynotices.emergencynotices;
 		if (notices.length == 0) {

@@ -5,22 +5,19 @@ module.exports = new SlashCommand({
 	name: 'pingbutcooler',
 	description: 'Fetches API data and reports back.',
 	scope: 'Dev',
-	async execute(interaction) {
-		const { client } = interaction;
-
+	async execute(interaction, client) {
 		const message = await interaction.reply({ content: 'Fetching', fetchReply: true });
-		const botLatency = message.createdTimestamp - interaction.createdTimestamp;
 
-		const botPing = Math.round(botLatency);
+		const botPing = Math.round(message.createdTimestamp - interaction.createdTimestamp);
+
 		let statusEstimate;
-
 		if (botPing <= 50) {
 			statusEstimate = 'Great!';
 		}
-		else if (botPing > 50 && botPing < 100) {
+		else if (botPing > 50 && botPing <= 100) {
 			statusEstimate = 'Decent!';
 		}
-		else if (botPing > 100 && botPing < 150) {
+		else if (botPing > 100 && botPing <= 150) {
 			statusEstimate = 'Okay.';
 		}
 		else {

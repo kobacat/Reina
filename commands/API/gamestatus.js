@@ -5,8 +5,7 @@ module.exports = new SlashCommand({
 	name: 'gamestatus',
 	description: 'Grabs the Fortnite server status',
 	scope: 'Exclusive',
-	async execute(interaction) {
-		const { client } = interaction;
+	async execute(interaction, client) {
 		const { epicFetch } = require('../../API/epicauth.js');
 		const json = await epicFetch('https://lightswitch-public-service-prod06.ol.epicgames.com/lightswitch/api/service/bulk/status?serviceId=Fortnite');
 		const { status } = json[0];
