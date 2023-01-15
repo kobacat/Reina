@@ -2,7 +2,7 @@ const { ClientEvent } = require('@squiddleton/discordjs-util');
 const { Events } = require('discord.js');
 const { schedule } = require('node-cron');
 const { epicFetch } = require('../API/epicauth.js');
-const checkStatus = require('./../util/checkStatus.js');
+const checkStatus = require('../util/checkStatus.js');
 
 module.exports = new ClientEvent({
 	name: Events.ClientReady,
@@ -22,9 +22,9 @@ module.exports = new ClientEvent({
 			if (status2 !== status1) {
 				await maintenanceChannel.send(`Fortnite server status change detected at ${Date()}, sending updates...`);
 				await checkStatus(client);
-				return status1 = status2;
+				status1 = status2;
 			}
-		}, { timezone: 'Etc/UTC' });
+		});
 
 		// Check Fortnite Emergency Notices
 		const ENjson = await epicFetch('https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game?lang=en');
@@ -38,6 +38,6 @@ module.exports = new ClientEvent({
 			await maintenanceChannel.send(`Fortnite server status change detected at ${Date()}, sending updates...`);
 			await checkStatus(client);
 			notice1 = notice2.emergencynoticev2.emergencynotices.emergencynotices;
-		}, { timezone: 'Etc/UTC' });
+		});
 	},
 });
