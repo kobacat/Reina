@@ -1,16 +1,18 @@
+const { ClientEvent } = require('@squiddleton/discordjs-util');
 const { Events } = require('discord.js');
 
-module.exports = {
+module.exports = new ClientEvent({
 	name: Events.InteractionCreate,
 	async execute(interaction) {
+		const { client } = interaction;
 		if (interaction.isCommand()) {
-			const command = interaction.client.commands.get(interaction.commandName);
+			const command = client.commands.get(interaction.commandName);
 			if (!command) return interaction.reply({ content: `I could not find a command matching ${interaction.commandName}`, ephemeral: true });
 
-			if (command.modOnly && !interaction.member.roles.cache.has('544952148790738954')) return interaction.reply('You are not authorized to use this command.');
+			if (command.modOnly && interaction.inCachedGuild() && !interaction.member.roles.cache.has('544952148790738954')) return interaction.reply('You are not authorized to use this command.');
 
 			try {
-				await command.execute(interaction);
+				await command.execute(interaction, client);
 			}
 			catch (error) {
 				console.error(error);
@@ -18,4 +20,4 @@ module.exports = {
 			}
 		}
 	},
-};
+});

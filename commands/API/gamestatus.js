@@ -18,8 +18,6 @@ module.exports = new SlashCommand({
 			.setDescription(`Status message: "**${json[0].message}**"`)
 			.setImage(status === 'UP' ? 'https://i.imgur.com/TWicoNT.png' : 'https://i.imgur.com/2wCFxey.png');
 
-		interaction.reply({ content: null,
-			embeds: [pingEmbed],
-		});
+		interaction.reply({ embeds: [pingEmbed] });
 	},
 });

@@ -3,7 +3,7 @@ const { ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = new SlashCommand({
 	name: 'eval',
-	description: 'Evaluate code',
+	description: 'Evaluates code',
 	options: [
 		{
 			name: 'code',

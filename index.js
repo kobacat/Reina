@@ -1,9 +1,8 @@
-const { Client } = require('@squiddleton/discordjs-util');
 const fs = require('fs');
 const path = require('path');
-require('dotenv/config');
+const { Client, ClientEvent } = require('@squiddleton/discordjs-util');
 const Discord = require('discord.js');
-const { ActivityType } = require('discord.js');
+require('dotenv/config');
 
 const commands = [];
 for (const folder of fs.readdirSync('./commands')) {
@@ -17,7 +16,13 @@ for (const folder of fs.readdirSync('./commands')) {
 const client = new Client({
 	commands,
 	devGuildId: process.env.devGuild,
+	events: fs.readdirSync('./events').filter(file => file.endsWith('.js')).map(file => {
+		const event = require(`./events/${file}`);
+		if (event instanceof ClientEvent) return event;
+		else throw new Error(`The event file ${file} does not export a ClientEvent instance`);
+	}),
 	exclusiveGuildId: process.env.FNBRGuild,
+	failIfNotExists: false,
 	intents: [
 		Discord.GatewayIntentBits.Guilds,
 		Discord.GatewayIntentBits.GuildMessages,
@@ -26,7 +31,7 @@ const client = new Client({
 	presence: {
 		activities: [{
 			name: 'the Zero Point',
-			type: ActivityType.Watching,
+			type: Discord.ActivityType.Watching,
 		}],
 	},
 });
