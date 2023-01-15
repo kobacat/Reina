@@ -15,8 +15,7 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
-    "node-cron": "^3.0.2",
-    "path": "^0.12.7"
+    "node-cron": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^8.31.0"
