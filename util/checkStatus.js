@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 module.exports = async function checkStatus(client) {
-	const { epicFetch } = require('../epicauth.js');
+	const { epicFetch } = require('../API/epicauth.js');
 	const json = epicFetch('https://lightswitch-public-service-prod06.ol.epicgames.com/lightswitch/api/service/bulk/status?serviceId=Fortnite');
 	const { status } = json[0];
 
