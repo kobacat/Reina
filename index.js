@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const { Client, ClientEvent } = require('@squiddleton/discordjs-util');
 const Discord = require('discord.js');
 require('dotenv/config');
@@ -13,14 +12,19 @@ for (const folder of fs.readdirSync('./commands')) {
 	}
 }
 
+/** @type {ClientEvent[]} */
+const events = [];
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event instanceof ClientEvent) events.push(event);
+	else throw new Error(`The event file ${file} does not export a ClientEvent instance`);
+}
+
 const client = new Client({
 	commands,
 	devGuildId: process.env.devGuild,
-	events: fs.readdirSync('./events').filter(file => file.endsWith('.js')).map(file => {
-		const event = require(`./events/${file}`);
-		if (event instanceof ClientEvent) return event;
-		else throw new Error(`The event file ${file} does not export a ClientEvent instance`);
-	}),
+	events,
 	exclusiveGuildId: process.env.FNBRGuild,
 	failIfNotExists: false,
 	intents: [
@@ -35,19 +39,5 @@ const client = new Client({
 		}],
 	},
 });
-
-const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
-
-for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = require(filePath);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args));
-	}
-	else {
-		client.on(event.name, (...args) => event.execute(...args));
-	}
-}
 
 client.login(process.env.TOKEN);
