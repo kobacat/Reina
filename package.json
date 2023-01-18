@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint . --fix"
   },
   "keywords": [],
   "author": "",
@@ -15,10 +15,10 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
-    "node-cron": "^3.0.2",
-    "path": "^0.12.7"
+    "node-cron": "^3.0.2"
   },
   "devDependencies": {
-    "eslint": "^8.31.0"
+    "eslint": "^8.31.0",
+    "eslint-plugin-import": "^2.27.4"
   }
 }

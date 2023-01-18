@@ -2,9 +2,10 @@ const { SlashCommand } = require('@squiddleton/discordjs-util');
 
 module.exports = new SlashCommand({
 	name: 'undeploy',
-	description: 'Remove all application commands from Discord',
+	description: 'Removes all application commands from Discord',
 	scope: 'Dev',
 	async execute(interaction) {
-		interaction.client.application.fetch().then(a => a.commands.set([]));
+		await interaction.client.application.commands.set([]);
+		await interaction.reply({ content: 'All application commands have been removed.', ephemeral: true });
 	},
 });

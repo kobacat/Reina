@@ -23,7 +23,11 @@ async function getAccessToken() {
 
 module.exports.getAccessToken = getAccessToken;
 
-const epicFetch = async (url) => {
+/**
+ *
+ * @param {string} url
+ */
+async function epicFetch(url) {
 	const { access_token } = await getAccessToken();
 	const res = await fetch(url, {
 		headers: {
@@ -31,6 +35,6 @@ const epicFetch = async (url) => {
 		},
 	});
 	return res.json();
-};
+}
 
 module.exports.epicFetch = epicFetch;
