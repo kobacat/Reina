@@ -17,7 +17,7 @@ module.exports = new ClientEvent({
 		});
 
 		const maintenanceChannel = client.channels.cache.get('569954225916739585');
-		if (maintenanceChannel === undefined || !maintenanceChannel.isTextBased()) throw new Error('There\'s a problem with getting the maintenance channel');
+		if (!maintenanceChannel?.isTextBased()) throw new Error('There\'s a problem with getting the maintenance channel');
 
 		let status1 = await epicFetch('https://lightswitch-public-service-prod06.ol.epicgames.com/lightswitch/api/service/bulk/status?serviceId=Fortnite')
 			.then(json => json[0].status);
