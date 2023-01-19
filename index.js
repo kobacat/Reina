@@ -12,7 +12,6 @@ for (const folder of fs.readdirSync('./commands')) {
 	}
 }
 
-/** @type {ClientEvent[]} */
 const events = [];
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
