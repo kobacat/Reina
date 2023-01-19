@@ -2,7 +2,7 @@ const { ClientEvent } = require('@squiddleton/discordjs-util');
 const { Events } = require('discord.js');
 const { schedule } = require('node-cron');
 const { epicFetch } = require('../API/epicauth.js');
-const checkNotice = require('../util/checkNotice.js');
+const createNotices = require('../util/createNotices.js');
 const createStatus = require('../util/createStatus.js');
 const editServerStatus = require('../util/editServerStatus.js');
 
@@ -46,7 +46,10 @@ module.exports = new ClientEvent({
 
 			if (filtered.length > 0) {
 				await maintenanceChannel.send(`Emergency notice detected at ${Date()}, sending updates...`);
-				await checkNotice(client, filtered);
+				const noticeEmbeds = await createNotices(client, filtered);
+				for (const id of ['740559376070475796', '488040333310164992']) {
+					await client.channels.cache.get(id).send({ embeds: noticeEmbeds });
+				}
 				oldNotices = newNotices;
 			}
 		});
