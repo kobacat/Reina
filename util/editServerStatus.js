@@ -137,7 +137,7 @@ module.exports = async function editServerStatus(client) {
 	const statusEmbed = new Discord.EmbedBuilder()
 		.setColor('#111111')
 		.setTitle('Fortnite Server Status')
-		.setAuthor({ name: 'Reina', iconURL: client.user.displayAvatarURL() })
+		.setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
 		.addFields(
 			{ name: 'Server Time (NA)', value: `**${servertime}**`, inline: false },
 			{ name: 'Daily Quests', value: 'Releasing **every day at 8 AM EST | 1 PM UTC**', inline: false },

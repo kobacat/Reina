@@ -14,7 +14,7 @@ module.exports = new SlashCommand({
 		}
 		const embeds = notices.map(entry => {
 			return new Discord.EmbedBuilder()
-				.setAuthor({ name: 'Reina', iconURL: client.user.displayAvatarURL() })
+				.setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
 				.setTitle(`${entry.title}`)
 				.setColor('#FF0000')
 				.setDescription(entry.body)

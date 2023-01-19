@@ -7,7 +7,7 @@ const Discord = require('discord.js');
  */
 module.exports = async function checkNotice(client, filteredNotices) {
 	const embeds = filteredNotices.map(notice => new Discord.EmbedBuilder()
-		.setAuthor({ name: 'Reina', iconURL: client.user.displayAvatarURL() })
+		.setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
 		.setTitle(`${notice.title}`)
 		.setColor('#FF0000')
 		.setDescription(notice.body)

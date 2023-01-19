@@ -25,7 +25,7 @@ module.exports = new SlashCommand({
 		}
 
 		const pingEmbed = new Discord.EmbedBuilder()
-			.setAuthor({ name: 'Reina', iconURL: client.user.displayAvatarURL() })
+			.setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
 			.setColor('#54BAE3')
 			.setDescription(`Pong! Outlook performance is ${statusEstimate}`)
 			.addFields({ name: 'Bot Latency', value: `${botPing} milliseconds`, inline: true })
