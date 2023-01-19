@@ -1,5 +1,5 @@
 const { ClientEvent } = require('@squiddleton/discordjs-util');
-const { Events } = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = new ClientEvent({
 	name: Events.MessageCreate,

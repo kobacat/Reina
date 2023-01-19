@@ -1,5 +1,5 @@
 const { ClientEvent } = require('@squiddleton/discordjs-util');
-const { Events } = require('discord.js');
+const Discord = require('discord.js');
 const { schedule } = require('node-cron');
 const { epicFetch } = require('../API/epicauth.js');
 const createNotices = require('../util/createNotices.js');
@@ -7,7 +7,7 @@ const createStatus = require('../util/createStatus.js');
 const editServerStatus = require('../util/editServerStatus.js');
 
 module.exports = new ClientEvent({
-	name: Events.ClientReady,
+	name: Discord.Events.ClientReady,
 	once: true,
 	async execute(client) {
 		console.log(`${client.user.tag} is now online!`);

@@ -1,8 +1,8 @@
 const { ClientEvent } = require('@squiddleton/discordjs-util');
-const { Events } = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = new ClientEvent({
-	name: Events.InteractionCreate,
+	name: Discord.Events.InteractionCreate,
 	async execute(interaction) {
 		const { client } = interaction;
 		if (interaction.isCommand()) {
