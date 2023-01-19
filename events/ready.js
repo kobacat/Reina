@@ -3,7 +3,7 @@ const { Events } = require('discord.js');
 const { schedule } = require('node-cron');
 const { epicFetch } = require('../API/epicauth.js');
 const checkNotice = require('../util/checkNotice.js');
-const checkStatus = require('../util/checkStatus.js');
+const createStatus = require('../util/createStatus.js');
 const editServerStatus = require('../util/editServerStatus.js');
 
 module.exports = new ClientEvent({
@@ -32,7 +32,10 @@ module.exports = new ClientEvent({
 
 			if (status2 !== status1) {
 				await maintenanceChannel.send(`Fortnite server status change detected at ${Date()}, sending updates...`);
-				await checkStatus(client);
+				const statusEmbed = await createStatus(client, true);
+				for (const id of ['740559376070475796', '488040333310164992']) {
+					await client.channels.cache.get(id).send({ embeds: [statusEmbed] });
+				}
 				status1 = status2;
 			}
 
