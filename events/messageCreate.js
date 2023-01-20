@@ -2,7 +2,7 @@ const { ClientEvent } = require('@squiddleton/discordjs-util');
 const Discord = require('discord.js');
 
 module.exports = new ClientEvent({
-	name: Events.MessageCreate,
+	name: Discord.Events.MessageCreate,
 	async execute(message) {
 		if (message.content === 'Hi Reina') {
 			await message.reply('Online');
