@@ -10,9 +10,9 @@ const NEXT_CREW_PACK = 'February 1 2023 0:00:00';
  */
 module.exports = async function editServerStatus(client) {
 	const botMaintenance = client.channels.cache.get('569954225916739585');
-	if (!botMaintenance?.isTextBased()) throw new Error('There\'s a problem with getting the maintenance channel');
+	if (!botMaintenance?.isTextBased()) throw new Error('There\'s a problem with getting bot-maintenance');
 	const serverStatus = client.channels.cache.get('946910268548612106');
-	if (!serverStatus?.isTextBased()) throw new Error('There\'s a problem with getting the server status channel');
+	if (!serverStatus?.isTextBased()) throw new Error('There\'s a problem with getting server-status');
 
 	const now = new Date();
 	const nowMS = now.getTime();
@@ -27,7 +27,7 @@ module.exports = async function editServerStatus(client) {
 	/**
 	 *
 	 * @param {number} days
-	 * @returns {[number, number, number]}
+	 * @returns {string[]}
 	 */
 	function getTimes(days) {
 		return [
@@ -57,9 +57,9 @@ module.exports = async function editServerStatus(client) {
 	/**
 	 *
 	 * @param {string} str
-	 * @param {string|undefined} language
+	 * @param {string} [language]
 	 */
-	async function transformTimeString(str, language) {
+	const transformTimeString = async function (str, language) {
 		const remainingTime = getRemainingTime(str);
 		let timeString = `# ${remainingTime.days} Days, ${remainingTime.hours} Hours, ${remainingTime.minutes} Minutes, ${remainingTime.seconds} Seconds`;
 		const nums = [remainingTime.days, remainingTime.hours, remainingTime.minutes, remainingTime.seconds];
@@ -72,7 +72,7 @@ module.exports = async function editServerStatus(client) {
 		}
 
 		return language !== undefined ? Discord.codeBlock(language, timeString) : Discord.codeBlock(timeString);
-	}
+	};
 
 	// CURRENT TIME
 	/*
@@ -91,7 +91,7 @@ module.exports = async function editServerStatus(client) {
 	if (now > dailyStart) { // if current time is greater, then add one day
 		dailyStart.setDate(dailyStart.getDate() + 1);
 	}
-	const dailyDays = (dailyStart - now) / 1000;
+	const dailyDays = (dailyStart.getTime() - now.getTime()) / 1000;
 	const [dailyHours, dailyMins, dailySecs] = getTimes(dailyDays);
 	const DAILY_QUESTS = Discord.codeBlock('glsl', `# ${dailyHours} hours, ${dailyMins} minutes, ${dailySecs} seconds`);
 
@@ -106,7 +106,7 @@ module.exports = async function editServerStatus(client) {
 	if (now > shopStart) { // if current time is greater, then add one day
 		shopStart.setDate(shopStart.getDate() + 1);
 	}
-	const shopDays = (shopStart - now) / 1000;
+	const shopDays = (shopStart.getTime() - now.getTime()) / 1000;
 	const [shopHours, shopMins, shopSecs] = getTimes(shopDays);
 	const ITEM_SHOP = Discord.codeBlock('fix', `# ${shopHours} hours, ${shopMins} minutes, ${shopSecs} seconds`);
 

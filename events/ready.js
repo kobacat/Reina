@@ -16,8 +16,14 @@ module.exports = new ClientEvent({
 			await editServerStatus(client);
 		});
 
-		const maintenanceChannel = client.channels.cache.get('569954225916739585');
-		if (!maintenanceChannel?.isTextBased()) throw new Error('There\'s a problem with getting the maintenance channel');
+		const botMainteance = client.channels.cache.get('569954225916739585');
+		if (!botMainteance?.isTextBased()) throw new Error('There\'s a problem with getting bot-maintenance');
+		const general = client.channels.cache.get('569954225916739585');
+		if (!general?.isTextBased()) throw new Error('There\'s a problem with getting general');
+		const statusAnnouncements = client.channels.cache.get('740559376070475796');
+		if (!statusAnnouncements?.isTextBased()) throw new Error('There\'s a problem with getting status-announcements');
+
+		const channels = [general, statusAnnouncements];
 
 		let status1 = await epicFetch('https://lightswitch-public-service-prod06.ol.epicgames.com/lightswitch/api/service/bulk/status?serviceId=Fortnite')
 			.then(json => json[0].status);
@@ -31,10 +37,10 @@ module.exports = new ClientEvent({
 				.then(json => json[0].status);
 
 			if (status2 !== status1) {
-				await maintenanceChannel.send(`Fortnite server status change detected at ${Date()}, sending updates...`);
+				await botMainteance.send(`Fortnite server status change detected at ${Date()}, sending updates...`);
 				const statusEmbed = await createStatus(client, true);
-				for (const id of ['740559376070475796', '488040333310164992']) {
-					await client.channels.cache.get(id).send({ embeds: [statusEmbed] });
+				for (const channel of channels) {
+					await channel.send({ embeds: [statusEmbed] });
 				}
 				status1 = status2;
 			}
@@ -45,10 +51,10 @@ module.exports = new ClientEvent({
 			const filtered = newNotices.filter(n => !oldNotices.find(old => old.title === n.title));
 
 			if (filtered.length > 0) {
-				await maintenanceChannel.send(`Emergency notice detected at ${Date()}, sending updates...`);
+				await botMainteance.send(`Emergency notice detected at ${Date()}, sending updates...`);
 				const noticeEmbeds = await createNotices(client, filtered);
-				for (const id of ['740559376070475796', '488040333310164992']) {
-					await client.channels.cache.get(id).send({ embeds: noticeEmbeds });
+				for (const channel of channels) {
+					await channel.send({ embeds: noticeEmbeds });
 				}
 				oldNotices = newNotices;
 			}
