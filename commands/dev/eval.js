@@ -1,5 +1,5 @@
 const { SlashCommand, evalCommand } = require('@squiddleton/discordjs-util');
-const { ApplicationCommandOptionType } = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = new SlashCommand({
 	name: 'eval',
@@ -8,7 +8,7 @@ module.exports = new SlashCommand({
 		{
 			name: 'code',
 			description: 'Code to evaluate',
-			type: ApplicationCommandOptionType.String,
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],

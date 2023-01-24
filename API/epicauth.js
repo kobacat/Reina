@@ -17,7 +17,7 @@ async function getAccessToken() {
 			}),
 		},
 	);
-	if (!res.ok) throw new Error(`Unexpected Epic response status: [${res.status}] ${res.statusText}`);
+	if (!res.ok) throw new Error(`Unexpected Epic access token response: [${res.status}] ${res.statusText}`);
 	return res.json();
 }
 
@@ -34,6 +34,7 @@ async function epicFetch(url) {
 			Authorization: `bearer ${access_token}`,
 		},
 	});
+	if (!res.ok) throw new Error(`Unexpected Epic fetch response: [${res.status}] ${res.statusText}`);
 	return res.json();
 }
 

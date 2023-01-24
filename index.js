@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Client, ClientEvent } = require('@squiddleton/discordjs-util');
+const { Client, ClientEvent, ContextMenu, SlashCommand } = require('@squiddleton/discordjs-util');
 const Discord = require('discord.js');
 require('dotenv/config');
 
@@ -8,11 +8,11 @@ for (const folder of fs.readdirSync('./commands')) {
 	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
 		const command = require(`./commands/${folder}/${file}`);
-		commands.push(command);
+		if (command instanceof SlashCommand || command instanceof ContextMenu) commands.push(command);
+		else throw new Error(`The event file ${folder}/${file} does not export a SlashCommand or ContextMenu instance`);
 	}
 }
 
-/** @type {ClientEvent[]} */
 const events = [];
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
